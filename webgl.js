@@ -1,4 +1,5 @@
 // copied from https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Getting_started_with_WebGL
+// modified by Caleb Jeffries
 
 main();
 
@@ -6,7 +7,7 @@ main();
 // start here
 //
 function main() {
-  const canvas = document.querySelector("#glcanvas");
+  const canvas = document.querySelector("#webgl-canvas");
   // Initialize the GL context
   const gl = canvas.getContext("webgl");
 
