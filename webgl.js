@@ -1,26 +1,38 @@
-// copied from https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Getting_started_with_WebGL
-// modified by Caleb Jeffries
-
-main();
-
-//
-// start here
-//
+// Main webGL function
 function main() {
+  // Start webGL on the canvas
   const canvas = document.getElementById("webgl-canvas");
-  // Initialize the GL context
-  const gl = canvas.getContext("webgl");
+  const webGL = canvas.getContext("webgl");
 
-  // Only continue if WebGL is available and working
-  if (gl === null) {
-    alert(
-      "Unable to initialize WebGL. Your browser or machine may not support it.",
-    );
+  // Make sure webGL works
+  if (webGL === null) {
+    alert("Your machine or browser does not support webGL");
     return;
   }
 
-  // Set clear color to black, fully opaque
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
-  // Clear the color buffer with specified clear color
-  gl.clear(gl.COLOR_BUFFER_BIT);
+  // Set the default color to blue when cleared
+  webGL.clearColor(0.0, 0.0, 1.0, 1.0);
+
+  // Clear the canvas
+  webGL.clear(webGL.COLOR_BUFFER_BIT);
+
+  // Fullscreen the the canvas
+  function fullscreenCanvas() {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen();
+    } else if (canvas.msRequestFullscreen) {
+      canvas.msRequestFullscreen();
+    } else if (canvas.mozRequestFullScreen) {
+      canvas.mozRequestFullScreen();
+    } else if (canvas.webkitRequestFullScreen) {
+      canvas.webkitRequestFullScreen();
+    }
+  }
+
+  // When the user clicks the fullscreen button, fullscreen the canvas
+  fullscreenButton = document.getElementById("fullscreen-button");
+  fullscreenButton.addEventListener("click", fullscreenCanvas);
 }
+
+// Start when the page has loaded
+window.onload = main;
