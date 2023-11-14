@@ -56,6 +56,12 @@ function main() {
   createShader(webgl, vertexShaderSource, webgl.VERTEX_SHADER);
   fragmentShaderSource = getFile("fragment.glsl");
   createShader(webgl, fragmentShaderSource, webgl.FRAGMENT_SHADER);
+
+  // Coordonates for a square
+  squareVerticies = new Float32Array([
+    -0.5, 0.5, -0.5, -0.5, 0.5, -0.5
+    -0.5, 0.5, 0.5, 0.5, 0.5, -0.5
+  ]);
 }
 
 // Start when the page has loaded
