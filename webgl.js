@@ -1,4 +1,16 @@
 // Main webGL function
+
+function getFile(file) {
+  xhr = new XMLHttpRequest();
+  xhr.open("GET", file, false);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      return xhr.responseText;
+    }
+  }
+  xhr.send();
+}
+
 function main() {
   // Start webGL on the canvas
   const canvas = document.getElementById("webgl-canvas");
@@ -32,6 +44,10 @@ function main() {
   // When the user clicks the fullscreen button, fullscreen the canvas
   fullscreenButton = document.getElementById("fullscreen-button");
   fullscreenButton.addEventListener("click", fullscreenCanvas);
+
+  // Get the shaders
+  vertexShaderSource = getFile("vertex.glsl");
+  fragmentShaderSource = getFile("fragment.glsl");
 }
 
 // Start when the page has loaded
