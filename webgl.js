@@ -11,6 +11,12 @@ function getFile(file) {
   xhr.send();
 }
 
+createShader(webgl, source, type) {
+  const shader = webgl.createShader(type);
+  webgl.shaderSource(shader, source);
+  webgl.compileShader(shader);
+}
+
 function main() {
   // Start webGL on the canvas
   const canvas = document.getElementById("webgl-canvas");
@@ -47,7 +53,9 @@ function main() {
 
   // Get the shaders
   vertexShaderSource = getFile("vertex.glsl");
+  createShader(webgl, vertexShaderSource, webgl.VERTEX_SHADER);
   fragmentShaderSource = getFile("fragment.glsl");
+  createShader(webgl, fragmentShaderSource, webgl.FRAGMENT_SHADER);
 }
 
 // Start when the page has loaded
