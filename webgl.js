@@ -53,11 +53,20 @@ function main() {
 
   // Get the shaders
   vertexShaderSource = getFile("vertex.glsl");
-  createShader(webGL, vertexShaderSource, webGL.VERTEX_SHADER);
+  createShader(vertexShader, vertexShaderSource, webGL.VERTEX_SHADER);
   fragmentShaderSource = getFile("fragment.glsl");
-  createShader(webGL, fragmentShaderSource, webGL.FRAGMENT_SHADER);
+  createShader(fragmentShader, fragmentShaderSource, webGL.FRAGMENT_SHADER);
+  program = webGL.createProgram();
+  webGL.attachShader(program, vertexShader);
+  webGL.attachShader(program, fragmentShader);
+  webGL.linkProgram(program);
 
-  // Coordonates for a square
+  // Make a buffer for the square
+  squareBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, squareBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, squareVertices, gl.STATIC_DRAW);
+
+  // Coordonates for the square
   squareVerticies = new Float32Array([
     -0.5, 0.5, -0.5, -0.5, 0.5, -0.5
     -0.5, 0.5, 0.5, 0.5, 0.5, -0.5
