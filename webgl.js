@@ -11,7 +11,7 @@ function getFile(file) {
   xhr.send();
 }
 
-createShader(webgl, source, type) {
+function createShader(webgl, source, type) {
   const shader = webgl.createShader(type);
   webgl.shaderSource(shader, source);
   webgl.compileShader(shader);
