@@ -62,16 +62,16 @@ function main() {
   webGL.attachShader(program, fragmentShader);
   webGL.linkProgram(program);
 
-  // Make a buffer for the square
-  squareBuffer = webGL.createBuffer();
-  webGL.bindBuffer(webGL.ARRAY_BUFFER, squareBuffer);
-  webGL.bufferData(webGL.ARRAY_BUFFER, squareVertices, gl.STATIC_DRAW);
-
-  // Coordonates for the square
+    // Coordonates for the square
   squareVerticies = new Float32Array([
     -0.5, 0.5, -0.5, -0.5, 0.5, -0.5
     -0.5, 0.5, 0.5, 0.5, 0.5, -0.5
   ]);
+  
+  // Make a buffer for the square
+  squareBuffer = webGL.createBuffer();
+  webGL.bindBuffer(webGL.ARRAY_BUFFER, squareBuffer);
+  webGL.bufferData(webGL.ARRAY_BUFFER, squareVertices, gl.STATIC_DRAW);
 }
 
 // Start when the page has loaded
