@@ -63,7 +63,7 @@ function main() {
   webGL.linkProgram(program);
 
     // Coordonates for the square
-  squareVerticies = new Float32Array([
+  squareVertices = new Float32Array([
     -0.5, 0.5, -0.5, -0.5, 0.5, -0.5
     -0.5, 0.5, 0.5, 0.5, 0.5, -0.5
   ]);
