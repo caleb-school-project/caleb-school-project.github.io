@@ -3,10 +3,8 @@
 function getFile(file) {
   xhr = new XMLHttpRequest();
   xhr.open("GET", file, false);
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4) {
-      return xhr.responseText;
-    }
+  xhr.onLoad = function() {
+    return xhr.responseText;
   }
   xhr.send();
 }
