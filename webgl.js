@@ -67,11 +67,22 @@ function main() {
     -0.5, 0.5, -0.5, -0.5, 0.5, -0.5
     -0.5, 0.5, 0.5, 0.5, 0.5, -0.5
   ]);
+  var dimensions = 2;
+  var itemNum = squareVertices.length / dimensions;
   
   // Make a buffer for the square
   squareBuffer = webGL.createBuffer();
   webGL.bindBuffer(webGL.ARRAY_BUFFER, squareBuffer);
-  webGL.bufferData(webGL.ARRAY_BUFFER, squareVertices, gl.STATIC_DRAW);
+  webGL.bufferData(webGL.ARRAY_BUFFER, squareVertices, webGL.STATIC_DRAW);
+
+  // Get the program ready
+  webGL.useProgram(program);
+  program.position = webGL.getAttribLocation(program, "position");
+  webGL.enableVertexAttribArray(program.position);
+  webGL.vertexAttribPointer(program.position, dimensions, webGL.FLOAT, false, 0, 0);
+
+  // Draw it!
+  webGL.drawArrays(webGL.TRIANGLES, 0, itemNum);
 }
 
 // Start when the page has loaded
