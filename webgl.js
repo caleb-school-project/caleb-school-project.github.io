@@ -41,25 +41,22 @@ function main() {
 
   var getShaders = new Promise(function(resolve) {
     var program = webGL.createProgram();
-
-    // Load the vertex shader
-    fetch("vertex.glsl").then(function(response) {
-      var shader = webGL.createShader(webGL.VERTEX_SHADER);
-      webGL.shaderSource(shader, response.text());
-      webGL.compileShader(shader);
-      webGL.attachShader(program, shader);
+    var vertexPromise = fetch("vertex.glsl");
+    var fragmentPromise = fetch("fragment.glsl");
+    Promise.all([vertexPromise, fragmentPromise]).then(function(responses) {
+      var vertexResponse = responses[0].text();
+      var vshader = webGL.createShader(webGL.VERTEX_SHADER);
+      webGL.shaderSource(vshader, vertexResponse);
+      webGL.compileShader(vshader);
+      webGL.attachShader(program, vshader);
+      var fragmentResponse = responses[1].text();
+      var fshader = webGL.createShader(webGL.FRAGMENT_SHADER);
+      webGL.shaderSource(fshader, fragmentResponse);
+      webGL.compileShader(fshader);
+      webGL.attachShader(program, fshader);
+      webGL.linkProgram(program);
+      resolve(program)
     });
-
-    // Load the fragment shader
-    fetch("fragment.glsl").then(function(response) {
-      var shader = webGL.createShader(webGL.FRAGMENT_SHADER);
-      webGL.shaderSource(shader, response.text());
-      webGL.compileShader(shader);
-      webGL.attachShader(program, shader);
-    });
-
-    webGL.linkProgram(program);
-    resolve(program)
   });
 
   getShaders.then(function(program) {
