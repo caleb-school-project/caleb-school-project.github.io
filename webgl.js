@@ -62,7 +62,7 @@ function main() {
   getShaders.then(function(program) {
 
     // Start the game
-    setInterval(function() {frameUpdate(program)}, 1000);
+    setInterval(function() {frameUpdate(program)}, 16);
   });
 
   function frameUpdate(program) {
