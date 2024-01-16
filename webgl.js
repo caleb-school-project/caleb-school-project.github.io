@@ -55,7 +55,7 @@ function main() {
       webGL.compileShader(fshader);
       webGL.attachShader(program, fshader);
       webGL.linkProgram(program);
-      resolve(program)
+      resolve(program);
     });
   });
 
@@ -67,7 +67,7 @@ function main() {
 
   function frameUpdate(program) {
     squareVertices = new Float32Array([
-      -0.5, 0.5, -0.5, -0.5, 0.5, -0.5
+      -0.5, 0.5, -0.5, -0.5, 0.5, -0.5,
       -0.5, 0.5, 0.5, 0.5, 0.5, -0.5
     ]);
     var dimensions = 2;
