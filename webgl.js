@@ -59,30 +59,46 @@ function main() {
     });
   });
 
-  getShaders.then(function(program) {
-
-    // Start the game
-    setInterval(function() {frameUpdate(program)}, 16);
+  var getShape = new Promise(function(resolve) {
+    var shapePromise = fetch("shape.json").then(function(response) {
+      return response.json()
+    }).then(function(responseJson) {
+      resolve(responseJson);
+    });
   });
 
-  function frameUpdate(program) {
-    squareVertices = new Float32Array([
-      -0.5, 0.5, -0.5, -0.5, 0.5, -0.5,
-      -0.5, 0.5, 0.5, 0.5, 0.5, -0.5
-    ]);
-    var dimensions = 2;
-    var itemNum = squareVertices.length / dimensions;
+  Promise.all([getShaders, getShape]).then(function(frameArgs) {
+    setInterval(function() {frameUpdate(frameArgs[0], frameArgs[1])}, 16);
+  });
 
-    // Make a buffer for the square
-    squareBuffer = webGL.createBuffer();
-    webGL.bindBuffer(webGL.ARRAY_BUFFER, squareBuffer);
-    webGL.bufferData(webGL.ARRAY_BUFFER, squareVertices, webGL.STATIC_DRAW);
+  function frameUpdate(program, shape) {
+    webGL.clear(webGL.COLOR_BUFFER_BIT);
+    var dimensions = 2;
+    var itemNum = shape.triangles.flat().length / dimensions;
+
+    // Make a buffer for the shape vertices
+    var shapeBuffer = webGL.createBuffer();
+    webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
+    webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(shape.triangles.flat()), webGL.STATIC_DRAW);
+
+    // Make a buffer for the colors
+    var colorBuffer = webGL.createBuffer();
+    webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
+    webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(shape.colors.flat()), webGL.STATIC_DRAW);
+
 
     // Get the program ready
     webGL.useProgram(program);
+
     program.position = webGL.getAttribLocation(program, "position");
+    webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
     webGL.enableVertexAttribArray(program.position);
     webGL.vertexAttribPointer(program.position, dimensions, webGL.FLOAT, false, 0, 0);
+
+    program.color = webGL.getAttribLocation(program, "color");
+    webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
+    webGL.enableVertexAttribArray(program.color);
+    webGL.vertexAttribPointer(program.color, 4, webGL.FLOAT, false, 0, 0);
 
     // Draw it!
     webGL.drawArrays(webGL.TRIANGLES, 0, itemNum);
