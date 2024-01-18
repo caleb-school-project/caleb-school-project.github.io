@@ -10,6 +10,10 @@ function main() {
   const canvas = document.getElementById("webgl-canvas");
   webGL = canvas.getContext("webgl");
 
+  // Set a loading message
+  const loadingMessage = document.getElementById("loading-message");
+  loadingMessage.textContent = "Loading...";
+
   // Make sure webGL works
   if (webGL === null) {
     alert("Your machine or browser does not support webGL");
@@ -68,6 +72,7 @@ function main() {
   });
 
   Promise.all([getShaders, getShape]).then(function(frameArgs) {
+    loadingMessage.textContent = "";
     setInterval(function() {frameUpdate(frameArgs[0], frameArgs[1])}, 16);
   });
 
