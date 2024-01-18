@@ -8,7 +8,7 @@ var webGL;
 function main() {
   // Start webGL on the canvas
   const canvas = document.getElementById("webgl-canvas");
-  webGL = canvas.getContext("webgl");
+  var webGL = canvas.getContext("webgl");
 
   // Set a loading message
   const loadingMessage = document.getElementById("loading-message");
@@ -20,8 +20,8 @@ function main() {
     return;
   }
 
-  // Set the default color to blue when cleared
-  webGL.clearColor(0.0, 0.0, 1.0, 1.0);
+  // Set the default color to black when cleared
+  webGL.clearColor(0.0, 0.0, 0.0, 1.0);
 
   // Clear the canvas
   webGL.clear(webGL.COLOR_BUFFER_BIT);
@@ -37,6 +37,16 @@ function main() {
     } else if (canvas.webkitRequestFullScreen) {
       canvas.webkitRequestFullScreen();
     }
+    canvas.height = screen.height;
+    canvas.width = screen.width;
+    webGL.viewport(0, 0, canvas.width, canvas.height);
+    canvas.onfullscreenchange = function() {
+      if (!document.fullscreenElement) {
+        canvas.height = 150;
+        canvas.width = 300;
+        webGL.viewport(0, 0, canvas.width, canvas.height);
+      }
+    };
   }
 
   // When the user clicks the fullscreen button, fullscreen the canvas
@@ -90,7 +100,6 @@ function main() {
     var colorBuffer = webGL.createBuffer();
     webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
     webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(shape.colors.flat()), webGL.STATIC_DRAW);
-
 
     // Get the program ready
     webGL.useProgram(program);
