@@ -1,6 +1,6 @@
 function addVectors(vector1, vector2) {
   var sum = [];
-  for(int i = 0; i < vector1.length; i++) {
+  for(var i = 0; i < vector1.length; i++) {
     sum[i] = vector1[i] vector2[i];
   }
   return sum;
@@ -21,11 +21,11 @@ function PhysicsObject(shape) {
       })
     }
     var acceleration = [];
-    for(int i = 0; i < this.forces.length; i++) {
+    for(var i = 0; i < this.forces.length; i++) {
       acceleration[i] = this.forces[i] / this.mass;
     }
     this.velocity = addVectors(this.velocity, acceleration);
-    for(int i = 0; i < shapeCoords.length; i++) {
+    for(var i = 0; i < shapeCoords.length; i++) {
       shapeCoords = addVectors(shapeCoords[i], this.velocity);
     }
   }
