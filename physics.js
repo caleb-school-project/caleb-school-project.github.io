@@ -12,7 +12,7 @@ function PhysicsObject(shape) {
   this.mass = 1;
   this.shape = shapeObject;
   this.addForce = function(newForce) {
-    this.velocity = addVectors(this.velocity, newForce);
+    this.forces = addVectors(this.forces, newForce);
   }
   this.frameUpdate = function() {
     shapeCoords = function() {
