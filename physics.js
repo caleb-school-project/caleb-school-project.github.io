@@ -28,6 +28,6 @@ function PhysicsObject(shapeObj) {
     for(var i = 0; i < shapeCoords.length; i++) {
       shapeCoords[i] = addVectors(shapeCoords[i], this.velocity);
     }
-    this.shape = shapeCoords;
+    this.shape.triangles = shapeCoords;
   }
 }
