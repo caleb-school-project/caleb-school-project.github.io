@@ -4,7 +4,7 @@
 window.onload = main;
 
 var webGL;
-var shapeObject;
+var defaultObject;
 
 function main() {
   // Start webGL on the canvas
@@ -84,24 +84,24 @@ function main() {
 
   Promise.all([getShaders, getShape]).then(function(frameArgs) {
     loadingMessage.textContent = "";
-    shapeObject = frameArgs[1];
+    defaultObject = new PhysicsObject(frameArgs[1]);
     setInterval(function() {frameUpdate(frameArgs[0])}, 16);
   });
 
   function frameUpdate(program) {
     webGL.clear(webGL.COLOR_BUFFER_BIT);
     var dimensions = 2;
-    var itemNum = shapeObject.triangles.flat().length / dimensions;
+    var itemNum = defaultObject.shape.triangles.flat().length / dimensions;
 
     // Make a buffer for the shape vertices
     var shapeBuffer = webGL.createBuffer();
     webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
-    webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(shapeObject.triangles.flat()), webGL.STATIC_DRAW);
+    webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(defaultObject.shape.triangles.flat()), webGL.STATIC_DRAW);
 
     // Make a buffer for the colors
     var colorBuffer = webGL.createBuffer();
     webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
-    webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(shapeObject.colors.flat()), webGL.STATIC_DRAW);
+    webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(defaultObject.shape.colors.flat()), webGL.STATIC_DRAW);
 
     // Get the program ready
     webGL.useProgram(program);
