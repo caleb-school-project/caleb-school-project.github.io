@@ -26,7 +26,8 @@ function PhysicsObject(shapeObj) {
     }
     this.velocity = addVectors(this.velocity, acceleration);
     for(var i = 0; i < shapeCoords.length; i++) {
-      shapeCoords = addVectors(shapeCoords[i], this.velocity);
+      shapeCoords[i] = addVectors(shapeCoords[i], this.velocity);
     }
+    this.shape = shapeCoords;
   }
 }
