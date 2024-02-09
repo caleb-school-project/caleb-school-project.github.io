@@ -1,7 +1,7 @@
 function addVectors(vector1, vector2) {
   var sum = [];
   for(var i = 0; i < vector1.length; i++) {
-    sum[i] = vector1[i] vector2[i];
+    sum[i] = vector1[i] + vector2[i];
   }
   return sum;
 }
