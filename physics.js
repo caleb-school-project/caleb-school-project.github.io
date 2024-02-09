@@ -6,11 +6,11 @@ function addVectors(vector1, vector2) {
   return sum;
 }
 
-function PhysicsObject(shape) {
+function PhysicsObject(shapeObj) {
   this.velocity = [0,0];
   this.forces = [0,0];
   this.mass = 1;
-  this.shape = shapeObject;
+  this.shape = shapeObj;
   this.addForce = function(newForce) {
     this.forces = addVectors(this.forces, newForce);
   }
