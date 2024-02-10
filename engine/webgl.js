@@ -56,8 +56,8 @@ function main() {
 
   var getShaders = new Promise(function(resolve) {
     var program = webGL.createProgram();
-    var vertexPromise = fetch("vertex.glsl").then(function(response) {return response.text()});
-    var fragmentPromise = fetch("fragment.glsl").then(function(response) {return response.text()});
+    var vertexPromise = fetch("shaders/vertex.glsl").then(function(response) {return response.text()});
+    var fragmentPromise = fetch("shaders/fragment.glsl").then(function(response) {return response.text()});
     Promise.all([vertexPromise, fragmentPromise]).then(function(responses) {
       var vertexResponse = responses[0];
       var vshader = webGL.createShader(webGL.VERTEX_SHADER);
@@ -75,7 +75,7 @@ function main() {
   });
 
   var getShape = new Promise(function(resolve) {
-    var shapePromise = fetch("shape.json").then(function(response) {
+    var shapePromise = fetch("shapes/shape.json").then(function(response) {
       return response.json()
     }).then(function(responseJson) {
       resolve(responseJson);
