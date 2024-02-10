@@ -15,8 +15,8 @@ function PhysicsObject(shapeObj) {
     this.forces = addVectors(this.forces, newForce);
   }
   this.frameUpdate = function() {
-    shapeCoords = new Array(this.shape.triangles.flat().length / 2).map(function(_, i) {
-      this.shape.slice(i * 2, (i + 1) * 2);
+    shapeCoords = new Array(this.shape.triangles.flat().length / 2).fill().map(function(_, i) {
+      return this.shape.slice(i * 2, (i + 1) * 2);
     });
     var acceleration = [];
     for(var i = 0; i < this.forces.length; i++) {
