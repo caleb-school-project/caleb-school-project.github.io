@@ -12,20 +12,20 @@ function PhysicsObject(shapeObj) {
   this.mass = 1;
   this.shape = shapeObj;
   this.addForce = function(newForce) {
-    this.forces = addVectors(this.forces, newForce);
+    forces = addVectors(forces, newForce);
   }
   this.frameUpdate = function() {
-    shapeCoords = new Array(this.shape.triangles.flat().length / 2).fill().map(function(_, i) {
-      return this.shape.slice(i * 2, (i + 1) * 2);
+    shapeCoords = new Array(shape.triangles.flat().length / 2).fill().map(function(_, i) {
+      return shape.slice(i * 2, (i + 1) * 2);
     });
     var acceleration = [];
-    for(var i = 0; i < this.forces.length; i++) {
-      acceleration[i] = this.forces[i] / this.mass;
+    for(var i = 0; i < forces.length; i++) {
+      acceleration[i] = forces[i] / mass;
     }
-    this.velocity = addVectors(this.velocity, acceleration);
+    velocity = addVectors(velocity, acceleration);
     for(var i = 0; i < shapeCoords.length; i++) {
-      shapeCoords[i] = addVectors(shapeCoords[i], this.velocity);
+      shapeCoords[i] = addVectors(shapeCoords[i], velocity);
     }
-    this.shape.triangles = shapeCoords;
+    shape.triangles = shapeCoords;
   }
 }
