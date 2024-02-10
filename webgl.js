@@ -89,6 +89,9 @@ function main() {
   });
 
   function frameUpdate(program) {
+    defaultObject.frameUpdate();
+
+    // Clear the canvas
     webGL.clear(webGL.COLOR_BUFFER_BIT);
     var dimensions = 2;
     var itemNum = defaultObject.shape.triangles.flat().length / dimensions;
