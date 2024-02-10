@@ -4,7 +4,7 @@
 window.onload = main;
 
 var webGL;
-var defaultObject;
+var objects = [];
 
 function main() {
   // Start webGL on the canvas
@@ -75,51 +75,64 @@ function main() {
   });
 
   var getShape = new Promise(function(resolve) {
-    var shapePromise = fetch("shapes/shape.json").then(function(response) {
+    var shapePromise1 = fetch("shapes/shape1.json").then(function(response) {
       return response.json()
-    }).then(function(responseJson) {
-      resolve(responseJson);
+    });
+    var shapePromise2 = fetch("shapes/shape2.json").then(function(response) {
+      return response.json()
+    });
+    Promise.all([shapePromise1, shapePromise2]).then(function(responseShapes) {
+      resolve(responseShapes);
     });
   });
 
   Promise.all([getShaders, getShape]).then(function(frameArgs) {
     loadingMessage.textContent = "";
-    defaultObject = new PhysicsObject(frameArgs[1]);
+    objects[0] = new PhysicsObject(frameArgs[1][0]);
+    objects[1] = new PhysicsObject(frameArgs[1][1]);
     setInterval(function() {frameUpdate(frameArgs[0])}, 16);
   });
 
   function frameUpdate(program) {
-    defaultObject.frameUpdate();
+    if (objects.length > 0) {
+      var allTriangles = [];
+      var allColors = [];
+      for (var i = 0; i < objects.length; i++) {
+        objects[i].frameUpdate();
+        allTriangles = allTriangles.concat(objects[i].shape.triangles.flat());
+        allColors = allColors.concat(objects[i].shape.colors.flat());
+      }
 
-    // Clear the canvas
-    webGL.clear(webGL.COLOR_BUFFER_BIT);
-    var dimensions = 2;
-    var itemNum = defaultObject.shape.triangles.flat().length / dimensions;
+      // Clear the canvas
+      webGL.clear(webGL.COLOR_BUFFER_BIT);
+      var dimensions = 2;
+      var itemNum = allTriangles.length / dimensions;
 
-    // Make a buffer for the shape vertices
-    var shapeBuffer = webGL.createBuffer();
-    webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
-    webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(defaultObject.shape.triangles.flat()), webGL.STATIC_DRAW);
+      // Make a buffer for the shape vertices
+      var shapeBuffer = webGL.createBuffer();
+      webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
+      webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(allTriangles), webGL.STATIC_DRAW);
 
-    // Make a buffer for the colors
-    var colorBuffer = webGL.createBuffer();
-    webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
-    webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(defaultObject.shape.colors.flat()), webGL.STATIC_DRAW);
+      // Make a buffer for the colors
+      var colorBuffer = webGL.createBuffer();
+      webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
+      webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(allColors), webGL.STATIC_DRAW);
 
-    // Get the program ready
-    webGL.useProgram(program);
+      // Get the program ready
+      webGL.useProgram(program);
 
-    program.position = webGL.getAttribLocation(program, "position");
-    webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
-    webGL.enableVertexAttribArray(program.position);
-    webGL.vertexAttribPointer(program.position, dimensions, webGL.FLOAT, false, 0, 0);
+      program.position = webGL.getAttribLocation(program, "position");
+      webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
+      webGL.enableVertexAttribArray(program.position);
+      webGL.vertexAttribPointer(program.position, dimensions, webGL.FLOAT, false, 0, 0);
 
-    program.color = webGL.getAttribLocation(program, "color");
-    webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
-    webGL.enableVertexAttribArray(program.color);
-    webGL.vertexAttribPointer(program.color, 4, webGL.FLOAT, false, 0, 0);
+      program.color = webGL.getAttribLocation(program, "color");
+      webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
+      webGL.enableVertexAttribArray(program.color);
+      webGL.vertexAttribPointer(program.color, 4, webGL.FLOAT, false, 0, 0);
 
-    // Draw it!
-    webGL.drawArrays(webGL.TRIANGLES, 0, itemNum);
+      // Draw it!
+      webGL.drawArrays(webGL.TRIANGLES, 0, itemNum);
+    }
   }
 }
