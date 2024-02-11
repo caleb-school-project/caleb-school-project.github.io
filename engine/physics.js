@@ -42,7 +42,6 @@ function PhysicsObject(shapeObj) {
         if (this.shape.colliders[0][0] + this.shape.colliders[0][2] > objects[i].shape.colliders[collidernum][0] && this.shape.colliders[0][0] < objects[i].shape.colliders[collidernum][0] + objects[i].shape.colliders[collidernum][2] && this.shape.colliders[0][1] + this.shape.colliders[0][3] > objects[i].shape.colliders[collidernum][1] && this.shape.colliders[0][1] < objects[i].shape.colliders[collidernum][1] + objects[i].shape.colliders[collidernum][3]) {
           objects[i].velocity = [this.velocity[0] - objects[i].velocity[0], this.velocity[1] - objects[i].velocity[1]];
           this.velocity = [objects[i].velocity[0] - this.velocity[0], objects[i].velocity[1] - this.velocity[1]];
-          console.log(this.velocity);
         }
       }
     }
