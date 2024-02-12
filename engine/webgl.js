@@ -93,6 +93,8 @@ function main() {
       webGL.clear(webGL.COLOR_BUFFER_BIT);
       var dimensions = 2;
       var itemNum = allTriangles.length / dimensions;
+      var aspect = canvas.width / canvas.height;
+      var aspects = new Array(itemNum * 4).fill(aspect);
 
       // Make a buffer for the shape vertices
       var shapeBuffer = webGL.createBuffer();
@@ -103,6 +105,11 @@ function main() {
       var colorBuffer = webGL.createBuffer();
       webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
       webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(allColors), webGL.STATIC_DRAW);
+
+      // Make a buffer for the aspect
+      var aspectBuffer = webGL.createBuffer();
+      webGL.bindBuffer(webGL.ARRAY_BUFFER, aspectBuffer);
+      webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(aspects), webGL.STATIC_DRAW);
 
       // Get the program ready
       webGL.useProgram(program);
@@ -116,6 +123,11 @@ function main() {
       webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
       webGL.enableVertexAttribArray(program.color);
       webGL.vertexAttribPointer(program.color, 4, webGL.FLOAT, false, 0, 0);
+
+      program.aspect = webGL.getAttribLocation(program, "aspect");
+      webGL.bindBuffer(webGL.ARRAY_BUFFER, aspectBuffer);
+      webGL.enableVertexAttribArray(program.aspect);
+      webGL.vertexAttribPointer(program.aspect, 4, webGL.FLOAT, false, 0, 0);
 
       // Draw it!
       webGL.drawArrays(webGL.TRIANGLES, 0, itemNum);
