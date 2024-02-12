@@ -74,23 +74,9 @@ function main() {
     });
   });
 
-  var getShape = new Promise(function(resolve) {
-    var shapePromise1 = fetch("shapes/shape1.json").then(function(response) {
-      return response.json()
-    });
-    var shapePromise2 = fetch("shapes/shape2.json").then(function(response) {
-      return response.json()
-    });
-    Promise.all([shapePromise1, shapePromise2]).then(function(responseShapes) {
-      resolve(responseShapes);
-    });
-  });
-
-  Promise.all([getShaders, getShape]).then(function(frameArgs) {
+  getShaders.then(function(shaders) {
     loadingMessage.textContent = "";
-    objects[0] = new PhysicsObject(frameArgs[1][0]);
-    objects[1] = new PhysicsObject(frameArgs[1][1]);
-    setInterval(function() {frameUpdate(frameArgs[0])}, 16);
+    setInterval(function() {frameUpdate(shaders)}, 16);
   });
 
   function frameUpdate(program) {
