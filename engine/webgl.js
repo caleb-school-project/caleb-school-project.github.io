@@ -114,17 +114,17 @@ function main() {
       // Get the program ready
       webGL.useProgram(webGLProgram);
 
-      program.position = webGL.getAttribLocation(webGLProgram, "position");
+      webGLProgram.position = webGL.getAttribLocation(webGLProgram, "position");
       webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
       webGL.enableVertexAttribArray(webGLProgram.position);
       webGL.vertexAttribPointer(webGLProgram.position, dimensions, webGL.FLOAT, false, 0, 0);
 
-      program.color = webGL.getAttribLocation(webGLProgram, "color");
+      webGLProgram.color = webGL.getAttribLocation(webGLProgram, "color");
       webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
       webGL.enableVertexAttribArray(webGLProgram.color);
       webGL.vertexAttribPointer(webGLProgram.color, 4, webGL.FLOAT, false, 0, 0);
 
-      program.aspect = webGL.getAttribLocation(webGLProgram, "aspect");
+      webGLProgram.aspect = webGL.getAttribLocation(webGLProgram, "aspect");
       webGL.bindBuffer(webGL.ARRAY_BUFFER, aspectBuffer);
       webGL.enableVertexAttribArray(webGLProgram.aspect);
       webGL.vertexAttribPointer(webGLProgram.aspect, 4, webGL.FLOAT, false, 0, 0);
