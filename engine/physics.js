@@ -7,6 +7,7 @@ function addVectors(vector1, vector2) {
 }
 
 function PhysicsObject(shapeObj) {
+  const update = new Event("update");
   this.velocity = [0,0];
   this.forces = [0,0];
   this.mass = 1;
@@ -25,6 +26,7 @@ function PhysicsObject(shapeObj) {
         this.shape.colliders[i][0] += velocity[0];
         this.shape.colliders[i][1] += velocity[1];
       }
+      this.dispatchEvent(update);
     }
   }
   this.addForce = function(newForce) {
