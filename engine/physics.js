@@ -7,6 +7,8 @@ function addVectors(vector1, vector2) {
 }
 
 function PhysicsObject(shapeObj) {
+  this.lastFrametime;
+  this.deltaTime = 0.016;
   this.update = new Function();
   this.velocity = [0,0];
   this.forces = [0,0];
@@ -19,14 +21,13 @@ function PhysicsObject(shapeObj) {
         return this.shape.triangles.flat().slice(i * 2, (i + 1) * 2);
       });
       for(var i = 0; i < shapeCoords.length; i++) {
-        shapeCoords[i] = addVectors(shapeCoords[i], velocity);
+        shapeCoords[i] = addVectors(shapeCoords[i], [velocity[0] * this.deltaTime, velocity[1] * this.deltaTime]);
       }
       this.shape.triangles = shapeCoords;
       for (i = 0; i < this.shape.colliders.length; i++) {
-        this.shape.colliders[i][0] += velocity[0];
-        this.shape.colliders[i][1] += velocity[1];
+        this.shape.colliders[i][0] += velocity[0] * this.deltaTime;
+        this.shape.colliders[i][1] += velocity[1] * this.deltaTime;
       }
-      this.update();
     }
   }
   this.addForce = function(newForce) {
@@ -38,6 +39,7 @@ function PhysicsObject(shapeObj) {
       acceleration[i] = this.forces[i] / this.mass;
     }
     this.velocity = addVectors(this.velocity, acceleration);
+    this.update();
     this.move(this.velocity);
     for (var i = 0; i < objects.length; i++) {
       if (objects[i].shape.colliders == this.shape.colliders) {
