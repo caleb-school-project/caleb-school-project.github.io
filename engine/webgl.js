@@ -5,6 +5,7 @@ window.onload = main;
 
 var webGL;
 var objects = [];
+var webGLShaders;
 
 function main() {
   // Start webGL on the canvas
@@ -72,14 +73,13 @@ function main() {
       webGL.linkProgram(program);
       resolve(program);
     });
-  });
-
-  getShaders.then(function(shaders) {
+  }).then(function(shaders) {
     loadingMessage.textContent = "";
-    setInterval(function() {frameUpdate(shaders)}, 16);
+    webGLProgram = shaders;
+    frameUpdate();
   });
 
-  function frameUpdate(program) {
+  function frameUpdate() {
     if (objects.length > 0) {
       var allTriangles = [];
       var allColors = [];
@@ -112,25 +112,26 @@ function main() {
       webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(aspects), webGL.STATIC_DRAW);
 
       // Get the program ready
-      webGL.useProgram(program);
+      webGL.useProgram(webGLProgram);
 
-      program.position = webGL.getAttribLocation(program, "position");
+      program.position = webGL.getAttribLocation(webGLProgram, "position");
       webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
-      webGL.enableVertexAttribArray(program.position);
-      webGL.vertexAttribPointer(program.position, dimensions, webGL.FLOAT, false, 0, 0);
+      webGL.enableVertexAttribArray(webGLProgram.position);
+      webGL.vertexAttribPointer(webGLProgram.position, dimensions, webGL.FLOAT, false, 0, 0);
 
-      program.color = webGL.getAttribLocation(program, "color");
+      program.color = webGL.getAttribLocation(webGLProgram, "color");
       webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
-      webGL.enableVertexAttribArray(program.color);
-      webGL.vertexAttribPointer(program.color, 4, webGL.FLOAT, false, 0, 0);
+      webGL.enableVertexAttribArray(webGLProgram.color);
+      webGL.vertexAttribPointer(webGLProgram.color, 4, webGL.FLOAT, false, 0, 0);
 
-      program.aspect = webGL.getAttribLocation(program, "aspect");
+      program.aspect = webGL.getAttribLocation(webGLProgram, "aspect");
       webGL.bindBuffer(webGL.ARRAY_BUFFER, aspectBuffer);
-      webGL.enableVertexAttribArray(program.aspect);
-      webGL.vertexAttribPointer(program.aspect, 4, webGL.FLOAT, false, 0, 0);
+      webGL.enableVertexAttribArray(webGLProgram.aspect);
+      webGL.vertexAttribPointer(webGLProgram.aspect, 4, webGL.FLOAT, false, 0, 0);
 
       // Draw it!
       webGL.drawArrays(webGL.TRIANGLES, 0, itemNum);
+      window.requestAnimationFrame(frameUpdate);
     }
   }
 }
