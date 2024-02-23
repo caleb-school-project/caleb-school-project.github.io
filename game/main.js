@@ -10,7 +10,7 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
   return response.json()
 }).then(function(response) {
   physicsObj = new PhysicsObject(response);
-  physicsObj.addForce([0, -0.0001]);
+  physicsObj.addForce([0, -0.001]);
   return objects.push(physicsObj) - 1;
 }).then(function(objectIndex) {
   window.onkeydown = function(e) {
