@@ -7,7 +7,7 @@ function addVectors(vector1, vector2) {
 }
 
 function PhysicsObject(shapeObj) {
-  this.lastFrameTime = 0;
+  this.lastFrameTime = new Date().getTime();
   this.deltaTime = 0;
   this.update = new Function();
   this.velocity = [0,0];
