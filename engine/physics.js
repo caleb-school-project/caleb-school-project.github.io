@@ -7,8 +7,8 @@ function addVectors(vector1, vector2) {
 }
 
 function PhysicsObject(shapeObj) {
-  this.lastFrametime;
-  this.deltaTime = 0.016;
+  this.lastFrametime = 0;
+  this.deltaTime = 0;
   this.update = new Function();
   this.velocity = [0,0];
   this.forces = [0,0];
@@ -34,6 +34,10 @@ function PhysicsObject(shapeObj) {
     this.forces = addVectors(this.forces, newForce);
   }
   this.frameUpdate = function() {
+    var d = new Date();
+    var thisFrameTime = d.getTime();
+    this.deltaTime = (thisFrameTime - this.lastFrameTime) / 1000;
+    this.lastFrameTime = thisFrameTime;
     var acceleration = [];
     for(var i = 0; i < this.forces.length; i++) {
       acceleration[i] = this.forces[i] / this.mass;
