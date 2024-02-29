@@ -49,6 +49,9 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
     }
   };
   for (var objnum = 0; objnum < objects.length; objnum++) {
+    if (objectIndex == objnum) {
+      continue;
+    }
     objects[objnum].update = function() {
       if (rightPressed) {
         this.velocity[0] += 0.01;
