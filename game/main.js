@@ -44,14 +44,18 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
     if (upPressed) {
       this.velocity[1] += 0.01;
     }
-    if (leftPressed) {
-      this.velocity[0] -= 0.01;
-    }
     if (downPressed) {
       this.velocity[1] -= 0.01;
     }
-    if (rightPressed) {
-      this.velocity[0] += 0.01;
-    }
   };
+  for (var objnum = 0; objnum < objects.length; objnum++) {
+    objects[objnum].update = function() {
+      if (rightPressed) {
+        this.velocity[0] += 0.01;
+      }
+      if (leftPressed) {
+        this.velocity[0] -= 0.01;
+      }
+    }
+  }
 });
