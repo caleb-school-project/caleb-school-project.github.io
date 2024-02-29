@@ -1,3 +1,8 @@
+var upPressed = false;
+var leftPressed = false;
+var downPressed = false;
+var rightPressed = false;
+
 var floorPromise = fetch("shapes/floor.json").then(function(response) {
   return response.json()
 }).then(function(response) {
@@ -15,24 +20,38 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
 }).then(function(objectIndex) {
   window.onkeydown = function(e) {
     if (e.key == "w" || e.key == "ArrowUp") {
-      objects[objectIndex].addForce([0, 0.0001]);
+      upPressed = true;
     } else if (e.key == "a" || e.key == "ArrowLeft") {
-      objects[objectIndex].addForce([-0.0001, 0]);
+      leftPressed = true;
     } else if (e.key == "s" || e.key == "ArrowDown") {
-      objects[objectIndex].addForce([0, -0.0001]);
+      downPressed = true;
     } else if (e.key == "d" || e.key == "ArrowRight") {
-      objects[objectIndex].addForce([0.0001, 0]);
+      rightPressed = true;
     }
   };
   window.onkeyup = function(e) {
     if (e.key == "w" || e.key == "ArrowUp") {
-      objects[objectIndex].addForce([0, -0.0001]);
+      upPressed = false;
     } else if (e.key == "a" || e.key == "ArrowLeft") {
-      objects[objectIndex].addForce([0.0001, 0]);
+      leftPressed = false;
     } else if (e.key == "s" || e.key == "ArrowDown") {
-      objects[objectIndex].addForce([0, 0.0001]);
+      downPressed = false;
     } else if (e.key == "d" || e.key == "ArrowRight") {
-      objects[objectIndex].addForce([-0.0001, 0]);
+      rightPressed = false;
+    }
+  };
+  objects[objectIndex].update = function() {
+    if (upPressed) {
+      this.velocity[1] += 0.01;
+    }
+    if (leftPressed) {
+      this.velocity[0] -= 0.01;
+    }
+    if (downPressed) {
+      this.velocity[1] -= 0.01;
+    }
+    if (rightPressed) {
+      this.velocity[0] += 0.01;
     }
   };
 });
