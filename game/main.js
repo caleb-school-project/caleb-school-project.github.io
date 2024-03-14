@@ -7,7 +7,7 @@ var floorPromise = fetch("shapes/floor.json").then(function(response) {
   return response.json()
 }).then(function(response) {
   physicsObj = new PhysicsObject(response);
-  physicsObj.lockPos = true;
+  physicsObj.mass = 65535;
   return objects.push(physicsObj) - 1;
 });
 
