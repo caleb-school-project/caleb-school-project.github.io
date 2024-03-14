@@ -54,10 +54,10 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
     }
     objects[objnum].update = function() {
       if (rightPressed) {
-        this.velocity[0] += 0.01;
+        this.velocity[0] -= 0.01;
       }
       if (leftPressed) {
-        this.velocity[0] -= 0.01;
+        this.velocity[0] += 0.01;
       }
     }
   }
