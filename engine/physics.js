@@ -56,6 +56,22 @@ function PhysicsObject(shapeObj) {
           otherMomentum = [objects[i].velocity[0] * objects[i].mass, objects[i].velocity[1] * objects[i].mass];
           var otherNewMomentum = addVectors(otherMomentum, [thisMomentum[0] - otherMomentum[0], thisMomentum[1] - otherMomentum[1]]);
           var thisNewMomentum = addVectors(thisMomentum, [otherMomentum[0] - thisMomentum[0], otherMomentum[1] - thisMomentum[1]]);
+          if (this.lockX) {
+            otherNewMomentum[0] += thisNewMomentum[0];
+            thisNewMomentum[0] = 0;
+          }
+          if (this.lockY) {
+            otherNewMomentum[0] += thisNewMomentum[0];
+            thisNewMomentum[0] = 0;
+          }
+          if (objects[i].lockX) {
+            thisNewMomentum[0] += otherNewMomentum[0];
+            otherNewMomentum[0] = 0;
+          }
+          if (objects[i].lockY) {
+            thisNewMomentum[0] += otherNewMomentum[0];
+            otherNewMomentum[0] = 0;
+          }
           var otherVelocity = [otherNewMomentum[0] / objects[i].mass, otherNewMomentum[1] / objects[i].mass];
           var thisVelocity = [thisNewMomentum[0] / this.mass, thisNewMomentum[1] / this.mass];
           objects[i].velocity = otherVelocity;
