@@ -10,6 +10,7 @@ function PhysicsObject(shapeObj) {
   this.lastFrameTime = new Date().getTime();
   this.deltaTime = 0;
   this.update = new Function();
+  this.oncollision = new Function(collisionObjIndex);
   this.velocity = [0,0];
   this.forces = [0,0];
   this.mass = 1;
@@ -52,6 +53,7 @@ function PhysicsObject(shapeObj) {
       }
       for (var collidernum = 0; collidernum < objects[i].shape.colliders.length; collidernum++) {
         if (this.shape.colliders[0][0] + this.shape.colliders[0][2] > objects[i].shape.colliders[collidernum][0] && this.shape.colliders[0][0] < objects[i].shape.colliders[collidernum][0] + objects[i].shape.colliders[collidernum][2] && this.shape.colliders[0][1] + this.shape.colliders[0][3] > objects[i].shape.colliders[collidernum][1] && this.shape.colliders[0][1] < objects[i].shape.colliders[collidernum][1] + objects[i].shape.colliders[collidernum][3]) {
+          this.oncollision(i);
           thisMomentum = [this.velocity[0] * this.mass, this.velocity[1] * this.mass];
           otherMomentum = [objects[i].velocity[0] * objects[i].mass, objects[i].velocity[1] * objects[i].mass];
           var otherNewMomentum = addVectors(otherMomentum, [thisMomentum[0] - otherMomentum[0], thisMomentum[1] - otherMomentum[1]]);
