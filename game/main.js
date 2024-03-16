@@ -8,7 +8,15 @@ var floorPromise = fetch("shapes/floor.json").then(function(response) {
 }).then(function(response) {
   physicsObj = new PhysicsObject(response);
   physicsObj.lockY = true;
-  return objects.push(physicsObj) - 1;
+  objIndex = objects.push(physicsObj) - 1;
+  objects[objIndex].index = objIndex;
+  return objIndex;
+}).then(function(objectIndex) {
+  objects[objectIndex].oncollision = function(i) {
+    if (i == 1) {
+      console.log("Square touched floor");
+    }
+  };
 });
 
 var squarePromise = fetch("shapes/square.json").then(function(response) {
@@ -16,7 +24,9 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
 }).then(function(response) {
   physicsObj = new PhysicsObject(response);
   physicsObj.addForce([0, -0.001]);
-  return objects.push(physicsObj) - 1;
+  objIndex =  objects.push(physicsObj) - 1;
+  objects[objIndex].index = objIndex;
+  return objIndex;
 }).then(function(objectIndex) {
   window.onkeydown = function(e) {
     if (e.key == "w" || e.key == "ArrowUp") {
@@ -63,12 +73,3 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
   }
 });
 
-var squarePromise = fetch("shapes/square.json").then(function(response) {
-  return response.json()
-}).then(function(response) {
-  physicsObj = new PhysicsObject(response);
-  physicsObj.addForce([0, -0.001]);
-  return objects.push(physicsObj) - 1;
-}).then(function(objectIndex) {
-  objects[objectIndex].oncollision = new Function()
-}
