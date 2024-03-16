@@ -3,31 +3,17 @@ var leftPressed = false;
 var downPressed = false;
 var rightPressed = false;
 
-var floorPromise = fetch("shapes/floor.json").then(function(response) {
-  return response.json()
-}).then(function(response) {
-  physicsObj = new PhysicsObject(response);
-  physicsObj.lockY = true;
-  objIndex = objects.push(physicsObj) - 1;
-  objects[objIndex].index = objIndex;
-  return objIndex;
-}).then(function(objectIndex) {
-  objects[objectIndex].oncollision = function(i) {
+loadShape("shapes/floor.json").then(function(physObj) {
+  physObj.lockY = true;
+  physObj.oncollision = function(i) {
     if (i == 1) {
       console.log("Square touched floor");
     }
   };
 });
 
-var squarePromise = fetch("shapes/square.json").then(function(response) {
-  return response.json()
-}).then(function(response) {
-  physicsObj = new PhysicsObject(response);
-  physicsObj.addForce([0, -0.001]);
-  objIndex =  objects.push(physicsObj) - 1;
-  objects[objIndex].index = objIndex;
-  return objIndex;
-}).then(function(objectIndex) {
+loadShape("shapes/square.json").then(function(physObj) {
+  physObj.forces = addVectors(physObj.forces, [0,-0.05]);
   window.onkeydown = function(e) {
     if (e.key == "w" || e.key == "ArrowUp") {
       upPressed = true;
@@ -50,7 +36,7 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
       rightPressed = false;
     }
   };
-  objects[objectIndex].update = function() {
+  physObj.update = function() {
     if (upPressed) {
       this.velocity[1] += 0.01;
     }
@@ -59,7 +45,7 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
     }
   };
   for (var objnum = 0; objnum < objects.length; objnum++) {
-    if (objectIndex == objnum) {
+    if (objnum == physObj.index) {
       continue;
     }
     objects[objnum].update = function() {
@@ -73,12 +59,7 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
   }
 });
 
-var boundariesPromise = fetch("shapes/yboundaries.json").then(function(response) {
-  return response.json()
-}).then(function(response) {
-  physicsObj = new PhysicsObject(response);
-  physicsObj.lockY = true;
-  physicsObj.lockX = true;
-  objIndex = objects.push(physicsObj) - 1;
-  objects[objIndex].index = objIndex;
+loadShape("shapes/yboundaries.json").then(function(physObj) {
+  physObj.lockX = true;
+  physObj.lockY = true;
 });
