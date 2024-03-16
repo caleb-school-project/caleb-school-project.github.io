@@ -73,3 +73,12 @@ var squarePromise = fetch("shapes/square.json").then(function(response) {
   }
 });
 
+var boundariesPromise = fetch("shapes/yboundaries.json").then(function(response) {
+  return response.json()
+}).then(function(response) {
+  physicsObj = new PhysicsObject(response);
+  physicsObj.lockY = true;
+  physicsObj.lockX = true;
+  objIndex = objects.push(physicsObj) - 1;
+  objects[objIndex].index = objIndex;
+});
