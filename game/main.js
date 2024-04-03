@@ -29,7 +29,7 @@ window.onkeyup = function(e) {
 
 loadShape("shapes/square.json").then(function(physObj) {
   ballIndex = physObj.index;
-  physObj.velocity = [-0.05,-0.05];
+  physObj.velocity = [-0.5,-0.5];
 });
 
 loadShape("shapes/yboundaries.json").then(function(physObj) {
