@@ -58,6 +58,7 @@ loadShape("shapes/pointzone2.json").then(function(physObj) {
 });
 
 loadShape("shapes/paddle.json").then(function(physObj) {
+  physObj.lockX = true;
   physObj.update = function() {
     physObj.update = function() {
       if (upPressed) {
