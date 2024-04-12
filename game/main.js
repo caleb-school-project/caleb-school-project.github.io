@@ -60,13 +60,22 @@ loadShape("shapes/pointzone2.json").then(function(physObj) {
 loadShape("shapes/paddle.json").then(function(physObj) {
   physObj.lockX = true;
   physObj.update = function() {
-    physObj.update = function() {
-      if (upPressed) {
-        this.velocity[1] += 0.01;
-      }
-      if (downPressed) {
-        this.velocity[1] -= 0.01;
-      }
+    if (upPressed) {
+      this.velocity[1] += 0.01;
+    }
+    if (downPressed) {
+      this.velocity[1] -= 0.01;
+    }
+  }
+});
+
+loadShape("shapes/opponentpaddle.json").then(function(physObj) {
+  physObj.lockX = true;
+  physObj.update = function() {
+    if (this.shape.colliders.flat()[1] < objects[ballIndex].shape.colliders.flat()[1]) {
+      this.velocity[1] += 0.01;
+    } else if (this.shape.colliders.flat()[1] > objects[ballIndex].shape.colliders.flat()[1]) {
+      this.velocity[1] -= 0.01;
     }
   }
 });
