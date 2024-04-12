@@ -29,8 +29,8 @@ function PhysicsObject(shapeObj) {
     }
     this.shape.triangles = shapeCoords;
     for (i = 0; i < this.shape.colliders.length; i++) {
-      this.shape.colliders[i][0] += velocity[0] * this.deltaTime;
-      this.shape.colliders[i][1] += velocity[1] * this.deltaTime;
+      this.shape.colliders[i].x += velocity[0] * this.deltaTime;
+      this.shape.colliders[i].y += velocity[1] * this.deltaTime;
     }
   }
   this.addForce = function(newForce) {
@@ -53,7 +53,7 @@ function PhysicsObject(shapeObj) {
         continue;
       }
       for (var collidernum = 0; collidernum < objects[i].shape.colliders.length; collidernum++) {
-        if (this.shape.colliders[0][0] + this.shape.colliders[0][2] > objects[i].shape.colliders[collidernum][0] && this.shape.colliders[0][0] < objects[i].shape.colliders[collidernum][0] + objects[i].shape.colliders[collidernum][2] && this.shape.colliders[0][1] + this.shape.colliders[0][3] > objects[i].shape.colliders[collidernum][1] && this.shape.colliders[0][1] < objects[i].shape.colliders[collidernum][1] + objects[i].shape.colliders[collidernum][3]) {
+        if (this.shape.colliders[0].x + this.shape.colliders[0].width > objects[i].shape.colliders[collidernum].x && this.shape.colliders[0].x < objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width && this.shape.colliders[0].y + this.shape.colliders[0].height > objects[i].shape.colliders[collidernum].y && this.shape.colliders[0].y < objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height) {
           this.oncollision(i);
           objects[i].oncollision(this.index);
           thisMomentum = [this.velocity[0] * this.mass, this.velocity[1] * this.mass];
