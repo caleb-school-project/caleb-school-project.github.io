@@ -72,9 +72,9 @@ loadShape("shapes/paddle.json").then(function(physObj) {
 loadShape("shapes/opponentpaddle.json").then(function(physObj) {
   physObj.lockX = true;
   physObj.update = function() {
-    if (this.shape.colliders.flat()[1] < objects[ballIndex].shape.colliders.flat()[1]) {
+    if (this.shape.colliders[0].y + this.shape.colliders[0].height / 2 < objects[ballIndex].shape.colliders[0].y + objects[ballIndex].shape.colliders[0].height / 2) {
       this.velocity[1] += 0.01;
-    } else if (this.shape.colliders.flat()[1] > objects[ballIndex].shape.colliders.flat()[1]) {
+    } else if (this.shape.colliders[0].y + this.shape.colliders[0].height / 2 > objects[ballIndex].shape.colliders[0].y + objects[ballIndex].shape.colliders[0].height / 2) {
       this.velocity[1] -= 0.01;
     }
   }
