@@ -48,40 +48,42 @@ function PhysicsObject(shapeObj) {
     this.velocity = addVectors(this.velocity, acceleration);
     this.update();
     this.move(this.velocity);
-    for (var i = 0; i < objects.length; i++) {
-      if (objects[i].index == this.index) {
-        continue;
-      }
-      for (var collidernum = 0; collidernum < objects[i].shape.colliders.length; collidernum++) {
-        if (this.shape.colliders[0].x + this.shape.colliders[0].width > objects[i].shape.colliders[collidernum].x && this.shape.colliders[0].x < objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width && this.shape.colliders[0].y + this.shape.colliders[0].height > objects[i].shape.colliders[collidernum].y && this.shape.colliders[0].y < objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height) {
-          this.oncollision(i);
-          objects[i].oncollision(this.index);
-          thisMomentum = [this.velocity[0] * this.mass, this.velocity[1] * this.mass];
-          otherMomentum = [objects[i].velocity[0] * objects[i].mass, objects[i].velocity[1] * objects[i].mass];
-          var otherNewMomentum = addVectors(otherMomentum, [thisMomentum[0] - otherMomentum[0], thisMomentum[1] - otherMomentum[1]]);
-          var thisNewMomentum = addVectors(thisMomentum, [otherMomentum[0] - thisMomentum[0], otherMomentum[1] - thisMomentum[1]]);
-          if (this.lockX) {
-            otherNewMomentum[0] -= thisNewMomentum[0];
-            thisNewMomentum[0] = 0;
+    for (var collider = 0; collider < this.shape.colliders.length; collider++) {
+      for (var i = 0; i < objects.length; i++) {
+        if (objects[i].index == this.index) {
+          continue;
+        }
+        for (var collidernum = 0; collidernum < objects[i].shape.colliders.length; collidernum++) {
+          if (this.shape.colliders[collider].x + this.shape.colliders[collider].width > objects[i].shape.colliders[collidernum].x && this.shape.colliders[collider].x < objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width && this.shape.colliders[collider].y + this.shape.colliders[collider].height > objects[i].shape.colliders[collidernum].y && this.shape.colliders[collider].y < objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height) {
+            this.oncollision(i);
+            objects[i].oncollision(this.index);
+            thisMomentum = [this.velocity[0] * this.mass, this.velocity[1] * this.mass];
+            otherMomentum = [objects[i].velocity[0] * objects[i].mass, objects[i].velocity[1] * objects[i].mass];
+            var otherNewMomentum = addVectors(otherMomentum, [thisMomentum[0] - otherMomentum[0], thisMomentum[1] - otherMomentum[1]]);
+            var thisNewMomentum = addVectors(thisMomentum, [otherMomentum[0] - thisMomentum[0], otherMomentum[1] - thisMomentum[1]]);
+            if (this.lockX) {
+              otherNewMomentum[0] -= thisNewMomentum[0];
+              thisNewMomentum[0] = 0;
+            }
+            if (this.lockY) {
+              otherNewMomentum[1] -= thisNewMomentum[1];
+              thisNewMomentum[1] = 0;
+            }
+            if (objects[i].lockX) {
+              thisNewMomentum[0] -= otherNewMomentum[0];
+              otherNewMomentum[0] = 0;
+            }
+            if (objects[i].lockY) {
+              thisNewMomentum[1] -= otherNewMomentum[1];
+              otherNewMomentum[1] = 0;
+            }
+            var otherVelocity = [otherNewMomentum[0] / objects[i].mass, otherNewMomentum[1] / objects[i].mass];
+            var thisVelocity = [thisNewMomentum[0] / this.mass, thisNewMomentum[1] / this.mass];
+            objects[i].velocity = otherVelocity;
+            this.velocity = thisVelocity;
+            objects[i].move(objects[i].velocity);
+            this.move(this.velocity);
           }
-          if (this.lockY) {
-            otherNewMomentum[1] -= thisNewMomentum[1];
-            thisNewMomentum[1] = 0;
-          }
-          if (objects[i].lockX) {
-            thisNewMomentum[0] -= otherNewMomentum[0];
-            otherNewMomentum[0] = 0;
-          }
-          if (objects[i].lockY) {
-            thisNewMomentum[1] -= otherNewMomentum[1];
-            otherNewMomentum[1] = 0;
-          }
-          var otherVelocity = [otherNewMomentum[0] / objects[i].mass, otherNewMomentum[1] / objects[i].mass];
-          var thisVelocity = [thisNewMomentum[0] / this.mass, thisNewMomentum[1] / this.mass];
-          objects[i].velocity = otherVelocity;
-          this.velocity = thisVelocity;
-          objects[i].move(objects[i].velocity);
-          this.move(this.velocity);
         }
       }
     }
