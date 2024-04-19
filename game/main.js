@@ -3,6 +3,12 @@ var leftPressed = false;
 var downPressed = false;
 var rightPressed = false;
 var ballIndex;
+var score = [0, 0];
+
+function updateScore() {
+  var overlay = document.getElementById("overlay");
+  overlay.textContent = "Your score: " + score[0] + ". AI score: " + score[1] + ".";
+}
 
 window.onkeydown = function(e) {
   if (e.key == "w" || e.key == "ArrowUp") {
@@ -42,7 +48,8 @@ loadShape("shapes/pointzone1.json").then(function(physObj) {
   physObj.lockY = true;
   physObj.oncollision = function(collisionObjIndex) {
     if (collisionObjIndex == ballIndex) {
-      console.log("Point zone 1 detected a point!");
+      score[0]++;
+      updateScore();
     }
   }
 });
@@ -52,7 +59,8 @@ loadShape("shapes/pointzone2.json").then(function(physObj) {
   physObj.lockY = true;
   physObj.oncollision = function(collisionObjIndex) {
     if (collisionObjIndex == ballIndex) {
-      console.log("Point zone 2 detected a point!");
+      score[1]++;
+      updateScore();
     }
   }
 });
