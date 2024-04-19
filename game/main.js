@@ -7,7 +7,7 @@ var score = [0, 0];
 
 function updateScore() {
   var overlay = document.getElementById("overlay");
-  overlay.textContent = "Your score: " + score[0] + ". AI score: " + score[1] + ".";
+  overlay.textContent = "Your score: " + score[1] + ". AI score: " + score[0] + ".";
 }
 
 window.onkeydown = function(e) {
