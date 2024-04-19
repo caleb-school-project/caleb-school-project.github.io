@@ -67,13 +67,6 @@ loadShape("shapes/paddle.json").then(function(physObj) {
       this.velocity[1] -= 0.01;
     }
   }
-  physObj.oncollision = function(collisionObjIndex) {
-    if (collisionObjIndex != ballIndex) {
-      this.move([0, -this.velocity[1]])
-      extra = this.velocity[1] > 0 ? -0.01 : 0.01;
-      this.velocity[1] = (this.velocity[1] / 2) + extra;
-    }
-  }
 });
 
 loadShape("shapes/opponentpaddle.json").then(function(physObj) {
@@ -83,13 +76,6 @@ loadShape("shapes/opponentpaddle.json").then(function(physObj) {
       this.velocity[1] += 0.01;
     } else if (this.shape.colliders[0].y + this.shape.colliders[0].height / 2 > objects[ballIndex].shape.colliders[0].y + objects[ballIndex].shape.colliders[0].height / 2) {
       this.velocity[1] -= 0.01;
-    }
-  }
-  physObj.oncollision = function(collisionObjIndex) {
-    if (collisionObjIndex != ballIndex) {
-      this.move([0, -this.velocity[1]])
-      extra = this.velocity[1] > 0 ? -0.025 : 0.025;
-      this.velocity[1] = (this.velocity[1] / 2) + extra;
     }
   }
 });
