@@ -18,6 +18,7 @@ function PhysicsObject(shapeObj) {
   this.lockX = false;
   this.lockY = false;
   this.shape = shapeObj;
+  this.lastshape = shapeObj;
   this.move = function(velocity) {
     if (this.lockX) { this.velocity[0] = 0; }
     if (this.lockY) { this.velocity[1] = 0; }
@@ -59,8 +60,28 @@ function PhysicsObject(shapeObj) {
             objects[i].oncollision(this.index);
             thisMomentum = [this.velocity[0] * this.mass, this.velocity[1] * this.mass];
             otherMomentum = [objects[i].velocity[0] * objects[i].mass, objects[i].velocity[1] * objects[i].mass];
-            var otherNewMomentum = addVectors(otherMomentum, [thisMomentum[0] - otherMomentum[0], thisMomentum[1] - otherMomentum[1]]);
-            var thisNewMomentum = addVectors(thisMomentum, [otherMomentum[0] - thisMomentum[0], otherMomentum[1] - thisMomentum[1]]);
+            var thisNewMomentum = [0,0];
+            var otherNewMomentum = [0,0];
+            if(this.shape.colliders[collider].x + this.shape.colliders[collider].width > objects[i].shape.colliders[collidernum].x && !(this.lastshape.colliders[collider].x + this.lastshape.colliders[collider].width > objects[i].lastshape.colliders[collidernum].x)) {
+              XCollision();
+            }
+            if (this.shape.colliders[collider].x < objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width && !(this.lastshape.colliders[collider].x < objects[i].lastshape.colliders[collidernum].x + objects[i].lastshape.colliders[collidernum].width)) {
+              Xcollision();
+            }
+            if (this.shape.colliders[collider].y + this.shape.colliders[collider].height > objects[i].shape.colliders[collidernum].y && !(this.lastshape.colliders[collider].y + this.lastshape.colliders[collider].height > objects[i].lastshape.colliders[collidernum].y)) {
+              YCollision();
+            }
+            if (this.shape.colliders[collider].y < objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height && !(this.lastshape.colliders[collider].y < objects[i].lastshape.colliders[collidernum].y + objects[i].lastshape.colliders[collidernum].height)) {
+              YCollision();
+            }
+            function XCollision() {
+              otherNewMomentum[0] = thisMomentum[0] + (otherMomentum - thisMomentum[0]);
+              thisNewMomentum[0] = otherMomentum[0] + (thisMomentum - otherMomentum[0]);
+            }
+            function YCollision() {
+              otherNewMomentum[1] = thisMomentum[1] + (otherMomentum - thisMomentum[1]);
+              thisNewMomentum[1] = otherMomentum[1] + (thisMomentum - otherMomentum[1]);
+            }
             if (this.lockX) {
               otherNewMomentum[0] -= thisNewMomentum[0];
               thisNewMomentum[0] = 0;
@@ -87,5 +108,6 @@ function PhysicsObject(shapeObj) {
         }
       }
     }
+    this.lastshape = this.shape;
   }
 }
