@@ -102,12 +102,13 @@ function PhysicsObject(shapeObj) {
             var thisVelocity = [thisNewMomentum[0] / this.mass, thisNewMomentum[1] / this.mass];
             objects[i].velocity = otherVelocity;
             this.velocity = thisVelocity;
+            this.lastshape = this.shape;
+            objects[i].lastshape = objects[i].shape;
             objects[i].move(objects[i].velocity);
             this.move(this.velocity);
           }
         }
       }
     }
-    this.lastshape = this.shape;
   }
 }
