@@ -60,8 +60,8 @@ function PhysicsObject(shapeObj) {
             objects[i].oncollision(this.index);
             thisMomentum = [this.velocity[0] * this.mass, this.velocity[1] * this.mass];
             otherMomentum = [objects[i].velocity[0] * objects[i].mass, objects[i].velocity[1] * objects[i].mass];
-            var thisNewMomentum = [0,0];
-            var otherNewMomentum = [0,0];
+            var thisNewMomentum = thisMomentum;
+            var otherNewMomentum = otherMomentum;
             if(this.shape.colliders[collider].x + this.shape.colliders[collider].width > objects[i].shape.colliders[collidernum].x && !(this.lastshape.colliders[collider].x + this.lastshape.colliders[collider].width > objects[i].lastshape.colliders[collidernum].x)) {
               XCollision();
             }
