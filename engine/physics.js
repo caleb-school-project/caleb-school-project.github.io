@@ -63,16 +63,16 @@ function PhysicsObject(shapeObj) {
             otherMomentum = [objects[i].velocity[0] * objects[i].mass, objects[i].velocity[1] * objects[i].mass];
             var thisNewMomentum = thisMomentum;
             var otherNewMomentum = otherMomentum;
-            if(this.shape.colliders[collider].x + this.shape.colliders[collider].width < objects[i].shape.colliders[collidernum].x) {
+            if(this.shape.colliders[collider].x + this.shape.colliders[collider].width < Math.absobjects[i].shape.colliders[collidernum].x) {
               XCollision();
             }
-            if (this.shape.colliders[collider].x > objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width) {
+            if (Math.abs(this.shape.colliders[collider].x) > Math.abs(objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width)) {
               Xcollision();
             }
-            if (this.shape.colliders[collider].y + this.shape.colliders[collider].height < objects[i].shape.colliders[collidernum].y) {
+            if (Math.abs(this.shape.colliders[collider].y + this.shape.colliders[collider].height) < Math.abs(objects[i].shape.colliders[collidernum].y)) {
               YCollision();
             }
-            if (this.shape.colliders[collider].y > objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height) {
+            if (Math.abs(this.shape.colliders[collider].y) > Math.abs(objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height)) {
               YCollision();
             }
             function XCollision() {
