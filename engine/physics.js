@@ -63,16 +63,16 @@ function PhysicsObject(shapeObj) {
             otherMomentum = [objects[i].velocity[0] * objects[i].mass, objects[i].velocity[1] * objects[i].mass];
             var thisNewMomentum = thisMomentum;
             var otherNewMomentum = otherMomentum;
-            if(this.shape.colliders[collider].x + this.shape.colliders[collider].width > objects[i].shape.colliders[collidernum].x && !(this.lastshape.colliders[collider].x + this.lastshape.colliders[collider].width > objects[i].lastshape.colliders[collidernum].x)) {
+            if(this.shape.colliders[collider].x + this.shape.colliders[collider].width < objects[i].shape.colliders[collidernum].x && !(this.lastshape.colliders[collider].x + this.lastshape.colliders[collider].width < objects[i].lastshape.colliders[collidernum].x)) {
               XCollision();
             }
-            if (this.shape.colliders[collider].x < objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width && !(this.lastshape.colliders[collider].x < objects[i].lastshape.colliders[collidernum].x + objects[i].lastshape.colliders[collidernum].width)) {
+            if (this.shape.colliders[collider].x > objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width && !(this.lastshape.colliders[collider].x > objects[i].lastshape.colliders[collidernum].x + objects[i].lastshape.colliders[collidernum].width)) {
               Xcollision();
             }
-            if (this.shape.colliders[collider].y + this.shape.colliders[collider].height > objects[i].shape.colliders[collidernum].y && !(this.lastshape.colliders[collider].y + this.lastshape.colliders[collider].height > objects[i].lastshape.colliders[collidernum].y)) {
+            if (this.shape.colliders[collider].y + this.shape.colliders[collider].height < objects[i].shape.colliders[collidernum].y && !(this.lastshape.colliders[collider].y + this.lastshape.colliders[collider].height < objects[i].lastshape.colliders[collidernum].y)) {
               YCollision();
             }
-            if (this.shape.colliders[collider].y < objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height && !(this.lastshape.colliders[collider].y < objects[i].lastshape.colliders[collidernum].y + objects[i].lastshape.colliders[collidernum].height)) {
+            if (this.shape.colliders[collider].y > objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height && !(this.lastshape.colliders[collider].y > objects[i].lastshape.colliders[collidernum].y + objects[i].lastshape.colliders[collidernum].height)) {
               YCollision();
             }
             function XCollision() {
