@@ -20,6 +20,7 @@ function PhysicsObject(shapeObj) {
   this.shape = shapeObj;
   this.lastshape = shapeObj;
   this.move = function(velocity) {
+    this.lastshape = this.shape;
     if (this.lockX) { this.velocity[0] = 0; }
     if (this.lockY) { this.velocity[1] = 0; }
     shapeCoords = new Array(this.shape.triangles.flat().length / 2).fill().map((_, i) => {
@@ -75,12 +76,12 @@ function PhysicsObject(shapeObj) {
               YCollision();
             }
             function XCollision() {
-              otherNewMomentum[0] = thisMomentum[0] + (otherMomentum - thisMomentum[0]);
-              thisNewMomentum[0] = otherMomentum[0] + (thisMomentum - otherMomentum[0]);
+              otherNewMomentum[0] = thisMomentum[0] + (otherMomentum[0] - thisMomentum[0]);
+              thisNewMomentum[0] = otherMomentum[0] + (thisMomentum[0] - otherMomentum[0]);
             }
             function YCollision() {
-              otherNewMomentum[1] = thisMomentum[1] + (otherMomentum - thisMomentum[1]);
-              thisNewMomentum[1] = otherMomentum[1] + (thisMomentum - otherMomentum[1]);
+              otherNewMomentum[1] = thisMomentum[1] + (otherMomentum[0] - thisMomentum[1]);
+              thisNewMomentum[1] = otherMomentum[1] + (thisMomentum[0] - otherMomentum[1]);
             }
             if (this.lockX) {
               otherNewMomentum[0] -= thisNewMomentum[0];
@@ -102,8 +103,6 @@ function PhysicsObject(shapeObj) {
             var thisVelocity = [thisNewMomentum[0] / this.mass, thisNewMomentum[1] / this.mass];
             objects[i].velocity = otherVelocity;
             this.velocity = thisVelocity;
-            this.lastshape = this.shape;
-            objects[i].lastshape = objects[i].shape;
             objects[i].move(objects[i].velocity);
             this.move(this.velocity);
           }
