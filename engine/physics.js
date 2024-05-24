@@ -76,12 +76,12 @@ function PhysicsObject(shapeObj) {
               YCollision();
             }
             function XCollision() {
-              otherNewMomentum[0] = thisMomentum[0] + (otherMomentum[0] - thisMomentum[0]);
-              thisNewMomentum[0] = otherMomentum[0] + (thisMomentum[0] - otherMomentum[0]);
+              otherNewMomentum[0] = otherMomentum[0] + (thisMomentum[0] - otherMomentum[0]);
+              thisNewMomentum[0] = thisMomentum[0] + (otherMomentum[0] - thisMomentum[0]);
             }
             function YCollision() {
-              otherNewMomentum[1] = thisMomentum[1] + (otherMomentum[1] - thisMomentum[1]);
-              thisNewMomentum[1] = otherMomentum[1] + (thisMomentum[1] - otherMomentum[1]);
+              otherNewMomentum[1] = otherMomentum[1] + (thisMomentum[1] - otherMomentum[1]);
+              thisNewMomentum[1] = thisMomentum[1] + (otherMomentum[1] - thisMomentum[1]);
             }
             if (this.lockX) {
               otherNewMomentum[0] -= thisNewMomentum[0];
