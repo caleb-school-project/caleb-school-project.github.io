@@ -67,7 +67,7 @@ function PhysicsObject(shapeObj) {
               XCollision();
             }
             if (Math.abs(this.shape.colliders[collider].x) > Math.abs(objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width)) {
-              Xcollision();
+              XCollision();
             }
             if (Math.abs(this.shape.colliders[collider].y + this.shape.colliders[collider].height) < Math.abs(objects[i].shape.colliders[collidernum].y)) {
               YCollision();
