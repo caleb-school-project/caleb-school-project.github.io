@@ -6,6 +6,7 @@ window.onload = main;
 var webGL;
 var objects = [];
 var webGLShaders;
+var camerashift = [0,0];
 
 function main() {
   // Start webGL on the canvas
@@ -100,7 +101,12 @@ function main() {
       var shapeBuffer = webGL.createBuffer();
       webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
       webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(allTriangles), webGL.STATIC_DRAW);
-
+      
+      // Make a buffer for the camera shift
+      var cameraBuffer = webGL.createBuffer();
+      webGL.bindBuffer(webGL.ARRAY_BUFFER, cameraBuffer);
+      webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(camerashift), webGL.STATIC_DRAW);
+      
       // Make a buffer for the colors
       var colorBuffer = webGL.createBuffer();
       webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
@@ -118,6 +124,11 @@ function main() {
       webGL.bindBuffer(webGL.ARRAY_BUFFER, shapeBuffer);
       webGL.enableVertexAttribArray(webGLProgram.position);
       webGL.vertexAttribPointer(webGLProgram.position, dimensions, webGL.FLOAT, false, 0, 0);
+
+      webGLProgram.camera = webGL.getAttribLocation(webGLProgram, "camerashift")
+      webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
+      webGL.enableVertexAttribArray(webGLProgram.camera);
+      webGL.vertexAttribPointer(webGLProgram.camera, camerashift, webGL.FLOAT, false, 0, 0);
 
       webGLProgram.color = webGL.getAttribLocation(webGLProgram, "color");
       webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
