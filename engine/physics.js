@@ -63,16 +63,16 @@ function PhysicsObject(shapeObj) {
             otherMomentum = [objects[i].velocity[0] * objects[i].mass, objects[i].velocity[1] * objects[i].mass];
             var thisNewMomentum = thisMomentum;
             var otherNewMomentum = otherMomentum;
-            if(this.shape.colliders[collider].x + this.shape.colliders[collider].width < Math.abs(objects[i].shape.colliders[collidernum].x)) {
+            if(Math.abs(this.shape.colliders[collider].x + this.shape.colliders[collider].width) < Math.abs(objects[i].shape.colliders[collidernum].x) && !(Math.abs(this.lastshape.colliders[collider].x + this.lastshape.colliders[collider].width) < Math.abs(objects[i].lastshape.colliders[collidernum].x))) {
               XCollision();
             }
-            if (Math.abs(this.shape.colliders[collider].x) > Math.abs(objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width)) {
+            if (Math.abs(this.shape.colliders[collider].x) > Math.abs(objects[i].shape.colliders[collidernum].x + objects[i].shape.colliders[collidernum].width) && !(Math.abs(this.lastshape.colliders[collider].x) > Math.abs(objects[i].lastshape.colliders[collidernum].x + objects[i].lastshape.colliders[collidernum].width))) {
               XCollision();
             }
-            if (Math.abs(this.shape.colliders[collider].y + this.shape.colliders[collider].height) < Math.abs(objects[i].shape.colliders[collidernum].y)) {
+            if (Math.abs(this.shape.colliders[collider].y + this.shape.colliders[collider].height) < Math.abs(objects[i].shape.colliders[collidernum].y) && !(Math.abs(this.lastshape.colliders[collider].y + this.lastshape.colliders[collider].height) < Math.abs(objects[i].lastshape.colliders[collidernum].y))) {
               YCollision();
             }
-            if (Math.abs(this.shape.colliders[collider].y) > Math.abs(objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height)) {
+            if (Math.abs(this.shape.colliders[collider].y) > Math.abs(objects[i].shape.colliders[collidernum].y + objects[i].shape.colliders[collidernum].height) && !(Math.abs(this.lastshape.colliders[collider].y) > Math.abs(objects[i].lastshape.colliders[collidernum].y + objects[i].lastshape.colliders[collidernum].height))) {
               YCollision();
             }
             function XCollision() {
