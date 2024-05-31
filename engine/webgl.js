@@ -128,7 +128,7 @@ function main() {
       webGLProgram.camera = webGL.getAttribLocation(webGLProgram, "camerashift")
       webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
       webGL.enableVertexAttribArray(webGLProgram.camera);
-      webGL.vertexAttribPointer(webGLProgram.camera, camerashift, webGL.FLOAT, false, 0, 0);
+      webGL.vertexAttribPointer(webGLProgram.camera, dimensions, webGL.FLOAT, false, 0, 0);
 
       webGLProgram.color = webGL.getAttribLocation(webGLProgram, "color");
       webGL.bindBuffer(webGL.ARRAY_BUFFER, colorBuffer);
