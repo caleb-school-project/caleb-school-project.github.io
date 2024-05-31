@@ -96,6 +96,7 @@ function main() {
       var itemNum = allTriangles.length / dimensions;
       var aspect = canvas.width / canvas.height;
       var aspects = new Array(itemNum * 4).fill(aspect);
+      var camerashifts = new Array(itemNum).fill(camerashift).flat();
 
       // Make a buffer for the shape vertices
       var shapeBuffer = webGL.createBuffer();
@@ -105,7 +106,7 @@ function main() {
       // Make a buffer for the camera shift
       var cameraBuffer = webGL.createBuffer();
       webGL.bindBuffer(webGL.ARRAY_BUFFER, cameraBuffer);
-      webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(camerashift), webGL.STATIC_DRAW);
+      webGL.bufferData(webGL.ARRAY_BUFFER, new Float32Array(camerashifts), webGL.STATIC_DRAW);
       
       // Make a buffer for the colors
       var colorBuffer = webGL.createBuffer();
