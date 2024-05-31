@@ -95,7 +95,7 @@ function main() {
       var dimensions = 2;
       var itemNum = allTriangles.length / dimensions;
       var aspect = canvas.width / canvas.height;
-      var aspects = new Array(itemNum * 4).fill(aspect);
+      var aspects = new Array(itemNum).fill(aspect);
       var camerashifts = new Array(itemNum).fill(camerashift).flat();
 
       // Make a buffer for the shape vertices
@@ -139,7 +139,7 @@ function main() {
       webGLProgram.aspect = webGL.getAttribLocation(webGLProgram, "aspect");
       webGL.bindBuffer(webGL.ARRAY_BUFFER, aspectBuffer);
       webGL.enableVertexAttribArray(webGLProgram.aspect);
-      webGL.vertexAttribPointer(webGLProgram.aspect, 4, webGL.FLOAT, false, 0, 0);
+      webGL.vertexAttribPointer(webGLProgram.aspect, 1, webGL.FLOAT, false, 0, 0);
 
       // Draw it!
       webGL.drawArrays(webGL.TRIANGLES, 0, itemNum);
